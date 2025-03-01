@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sync"
 	"time"
 )
@@ -62,21 +61,4 @@ func (p *SomeRepositoryProxy) GetData() string {
 	p.mutex.Unlock()
 
 	return data
-}
-
-func main() {
-	repo := &SomeRepositoryImpl{}
-	proxy := NewSomeRepositoryProxy(repo, 10*time.Second)
-
-	// Первый запрос - данные будут загружены из базы
-	fmt.Println(proxy.GetData())
-
-	// Второй запрос - данные будут возвращены из кэша
-	fmt.Println(proxy.GetData())
-
-	// Ждем 11 секунд, чтобы данные из кэша истекли
-	time.Sleep(11 * time.Second)
-
-	// Третий запрос - данные снова будут загружены из базы
-	fmt.Println(proxy.GetData())
 }
