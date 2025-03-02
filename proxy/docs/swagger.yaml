@@ -1,5 +1,31 @@
 definitions:
-  main.Address:
+  auth.ErrorResponse:
+    properties:
+      "200":
+        type: string
+      "400":
+        type: string
+      "500":
+        type: string
+    type: object
+  auth.LoginResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  auth.TokenResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  auth.User:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  service.Address:
     properties:
       city:
         type: string
@@ -12,53 +38,27 @@ definitions:
       street:
         type: string
     type: object
-  main.ErrorResponse:
-    properties:
-      "200":
-        type: string
-      "400":
-        type: string
-      "500":
-        type: string
-    type: object
-  main.GeocodeRequest:
+  service.GeocodeRequest:
     properties:
       lat:
         type: number
       lng:
         type: number
     type: object
-  main.LoginResponse:
-    properties:
-      message:
-        type: string
-    type: object
-  main.RequestAddressSearch:
+  service.RequestAddressSearch:
     properties:
       query:
         type: string
     type: object
-  main.ResponseAddress:
+  service.ResponseAddress:
     properties:
       suggestions:
         items:
           properties:
             data:
-              $ref: '#/definitions/main.Address'
+              $ref: '#/definitions/service.Address'
           type: object
         type: array
-    type: object
-  main.TokenResponse:
-    properties:
-      token:
-        type: string
-    type: object
-  main.User:
-    properties:
-      password:
-        type: string
-      username:
-        type: string
     type: object
 host: localhost:8080
 info:
@@ -79,7 +79,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/main.GeocodeRequest'
+          $ref: '#/definitions/service.GeocodeRequest'
       - description: Bearer {token}
         in: header
         name: Authorization
@@ -91,15 +91,15 @@ paths:
         "200":
           description: Успешное выполнение
           schema:
-            $ref: '#/definitions/main.ResponseAddress'
+            $ref: '#/definitions/service.ResponseAddress'
         "400":
           description: Ошибка запроса
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            type: string
         "500":
           description: Ошибка подключения к серверу
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            type: string
       security:
       - BearerAuth: []
       summary: Get Geo Coordinates by Latitude and Longitude
@@ -116,7 +116,7 @@ paths:
         name: address
         required: true
         schema:
-          $ref: '#/definitions/main.RequestAddressSearch'
+          $ref: '#/definitions/service.RequestAddressSearch'
       - description: Bearer {token}
         in: header
         name: Authorization
@@ -128,15 +128,15 @@ paths:
         "200":
           description: Успешное выполнение
           schema:
-            $ref: '#/definitions/main.ResponseAddress'
+            $ref: '#/definitions/service.ResponseAddress'
         "400":
           description: Ошибка запроса
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            type: string
         "500":
           description: Ошибка подключения к серверу
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            type: string
       security:
       - BearerAuth: []
       summary: Get Geo Coordinates by Address
@@ -153,26 +153,26 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/main.User'
+          $ref: '#/definitions/auth.User'
       produces:
       - application/json
       responses:
         "200":
           description: Login successful
           schema:
-            $ref: '#/definitions/main.LoginResponse'
+            $ref: '#/definitions/auth.LoginResponse'
         "400":
           description: Invalid request
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/auth.ErrorResponse'
         "401":
           description: Invalid credentials
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/auth.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/auth.ErrorResponse'
       summary: Login a user
       tags:
       - users
@@ -188,26 +188,26 @@ paths:
         name: user
         required: true
         schema:
-          $ref: '#/definitions/main.User'
+          $ref: '#/definitions/auth.User'
       produces:
       - application/json
       responses:
         "201":
           description: User registered successfully
           schema:
-            $ref: '#/definitions/main.TokenResponse'
+            $ref: '#/definitions/auth.TokenResponse'
         "400":
           description: Invalid request
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/auth.ErrorResponse'
         "409":
           description: User already exists
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/auth.ErrorResponse'
         "500":
           description: Internal server error
           schema:
-            $ref: '#/definitions/main.ErrorResponse'
+            $ref: '#/definitions/auth.ErrorResponse'
       summary: Register a new user
       tags:
       - users

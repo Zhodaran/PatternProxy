@@ -20,10 +20,10 @@ func NewController(geoService service.GeoServicer) *Controller {
 // @Tags geo
 // @Accept json
 // @Produce json
-// @Param address body RequestAddressSearch true "Address search query"
-// @Success 200 {object} ResponseAddress "Успешное выполнение"
-// @Failure 400 {object} ErrorResponse "Ошибка запроса"
-// @Failure 500 {object} ErrorResponse "Ошибка подключения к серверу"
+// @Param address body service.RequestAddressSearch true "Address search query"
+// @Success 200 {object} service.ResponseAddress "Успешное выполнение"
+// @Failure 400 {object} string "Ошибка запроса"
+// @Failure 500 {object} string "Ошибка подключения к серверу"
 // @Security BearerAuth
 // @Router /api/address/search [post]
 func (c *Controller) GetGeoCoordinatesAddress(w http.ResponseWriter, r *http.Request) {
@@ -53,10 +53,10 @@ func (c *Controller) GetGeoCoordinatesAddress(w http.ResponseWriter, r *http.Req
 // @Tags geo
 // @Accept json
 // @Produce json
-// @Param body body GeocodeRequest true "Geographic coordinates"
-// @Success 200 {object} ResponseAddress "Успешное выполнение"
-// @Failure 400 {object} ErrorResponse "Ошибка запроса"
-// @Failure 500 {object} ErrorResponse "Ошибка подключения к серверу"
+// @Param body body service.GeocodeRequest true "Geographic coordinates"
+// @Success 200 {object} service.ResponseAddress "Успешное выполнение"
+// @Failure 400 {object} string "Ошибка запроса"
+// @Failure 500 {object} string "Ошибка подключения к серверу"
 // @Security BearerAuth
 // @Router /api/address/geocode [post]
 func (c *Controller) GetGeoCoordinatesGeocode(w http.ResponseWriter, r *http.Request) {

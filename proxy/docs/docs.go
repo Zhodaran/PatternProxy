@@ -40,7 +40,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.GeocodeRequest"
+                            "$ref": "#/definitions/service.GeocodeRequest"
                         }
                     },
                     {
@@ -55,19 +55,19 @@ const docTemplate = `{
                     "200": {
                         "description": "Успешное выполнение",
                         "schema": {
-                            "$ref": "#/definitions/main.ResponseAddress"
+                            "$ref": "#/definitions/service.ResponseAddress"
                         }
                     },
                     "400": {
                         "description": "Ошибка запроса",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "500": {
                         "description": "Ошибка подключения к серверу",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -98,7 +98,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.RequestAddressSearch"
+                            "$ref": "#/definitions/service.RequestAddressSearch"
                         }
                     },
                     {
@@ -113,19 +113,19 @@ const docTemplate = `{
                     "200": {
                         "description": "Успешное выполнение",
                         "schema": {
-                            "$ref": "#/definitions/main.ResponseAddress"
+                            "$ref": "#/definitions/service.ResponseAddress"
                         }
                     },
                     "400": {
                         "description": "Ошибка запроса",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "type": "string"
                         }
                     },
                     "500": {
                         "description": "Ошибка подключения к серверу",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "type": "string"
                         }
                     }
                 }
@@ -151,7 +151,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.User"
+                            "$ref": "#/definitions/auth.User"
                         }
                     }
                 ],
@@ -159,25 +159,25 @@ const docTemplate = `{
                     "200": {
                         "description": "Login successful",
                         "schema": {
-                            "$ref": "#/definitions/main.LoginResponse"
+                            "$ref": "#/definitions/auth.LoginResponse"
                         }
                     },
                     "400": {
                         "description": "Invalid request",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/auth.ErrorResponse"
                         }
                     },
                     "401": {
                         "description": "Invalid credentials",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/auth.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/auth.ErrorResponse"
                         }
                     }
                 }
@@ -203,7 +203,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/main.User"
+                            "$ref": "#/definitions/auth.User"
                         }
                     }
                 ],
@@ -211,25 +211,25 @@ const docTemplate = `{
                     "201": {
                         "description": "User registered successfully",
                         "schema": {
-                            "$ref": "#/definitions/main.TokenResponse"
+                            "$ref": "#/definitions/auth.TokenResponse"
                         }
                     },
                     "400": {
                         "description": "Invalid request",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/auth.ErrorResponse"
                         }
                     },
                     "409": {
                         "description": "User already exists",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/auth.ErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/main.ErrorResponse"
+                            "$ref": "#/definitions/auth.ErrorResponse"
                         }
                     }
                 }
@@ -237,7 +237,48 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "main.Address": {
+        "auth.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "200": {
+                    "type": "string"
+                },
+                "400": {
+                    "type": "string"
+                },
+                "500": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.TokenResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "auth.User": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "service.Address": {
             "type": "object",
             "properties": {
                 "city": {
@@ -257,21 +298,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "200": {
-                    "type": "string"
-                },
-                "400": {
-                    "type": "string"
-                },
-                "500": {
-                    "type": "string"
-                }
-            }
-        },
-        "main.GeocodeRequest": {
+        "service.GeocodeRequest": {
             "type": "object",
             "properties": {
                 "lat": {
@@ -282,15 +309,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.LoginResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                }
-            }
-        },
-        "main.RequestAddressSearch": {
+        "service.RequestAddressSearch": {
             "type": "object",
             "properties": {
                 "query": {
@@ -298,7 +317,7 @@ const docTemplate = `{
                 }
             }
         },
-        "main.ResponseAddress": {
+        "service.ResponseAddress": {
             "type": "object",
             "properties": {
                 "suggestions": {
@@ -307,29 +326,10 @@ const docTemplate = `{
                         "type": "object",
                         "properties": {
                             "data": {
-                                "$ref": "#/definitions/main.Address"
+                                "$ref": "#/definitions/service.Address"
                             }
                         }
                     }
-                }
-            }
-        },
-        "main.TokenResponse": {
-            "type": "object",
-            "properties": {
-                "token": {
-                    "type": "string"
-                }
-            }
-        },
-        "main.User": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
                 }
             }
         }

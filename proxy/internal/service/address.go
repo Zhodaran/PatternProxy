@@ -90,8 +90,8 @@ type GeoServicer interface {
 // @Param address body RequestAddressSearch true "Address search query"
 // @Param Authorization header string true "Bearer {token}"
 // @Success 200 {object} ResponseAddress "Успешное выполнение"
-// @Failure 400 {object} ErrorResponse "Ошибка запроса"
-// @Failure 500 {object} ErrorResponse "Ошибка подключения к серверу"
+// @Failure 400 {object} string "Ошибка запроса"
+// @Failure 500 {object} string "Ошибка подключения к серверу"
 // @Security BearerAuth
 // @Router /api/address/search [post]
 func (g *GeoService) GetGeoCoordinatesAddress(query string) (ResponseAddresses, error) {
@@ -150,8 +150,8 @@ func (g *GeoService) GetGeoCoordinatesAddress(query string) (ResponseAddresses, 
 // @Param body body GeocodeRequest true "Geographic coordinates"
 // @Param Authorization header string true "Bearer {token}"
 // @Success 200 {object} ResponseAddress "Успешное выполнение"
-// @Failure 400 {object} ErrorResponse "Ошибка запроса"
-// @Failure 500 {object} ErrorResponse "Ошибка подключения к серверу"
+// @Failure 400 {object} string "Ошибка запроса"
+// @Failure 500 {object} string "Ошибка подключения к серверу"
 // @Security BearerAuth
 // @Router /api/address/geocode [post]
 func (g *GeoService) GetGeoCoordinatesGeocode(lat float64, lng float64) (ResponseAddresses, error) {
